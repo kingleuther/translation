@@ -1,3 +1,9 @@
+/*
+*translator service
+*Please take note of the following 
+*file structure to be able to use correctly
+*/
+
 var env = require('node-env-file');
 var root = require('path');
 var appPath = root.dirname(require.main.filename);
@@ -9,14 +15,14 @@ function translator(obj, key) {
     var args = obj.split('.');
     //get the set of objects based on the passed obj
     var object = require(appPath + '/storage/lang/' + locale + '/' + args[0]);
-    //get the path as an array for checking
+    //get the actual path of the requested translation
     var path = args.slice(1);
 
     for (var i = 0; i < path.length; i++) {
         if (object[path[i]] === undefined) return;
         object = object[path[i]];
     }
-    //get the search key
+    //check if key/there is a value to be replaced exist
     if (key) {
         var numberOfKeys = Object.keys(key).length;
         for (var ctr = 0; ctr < numberOfKeys; ctr++) {
